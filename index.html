@@ -172,9 +172,9 @@
 </div>
 
 <script>
-    const SUPABASE_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const _SUPABASE_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
+    const _SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function inviaDati() {
         const input = document.getElementById('domandaInput');
@@ -192,7 +192,7 @@
         messaggio.style.color = "#f39c12";
         messaggio.innerText = "Invio in corso...";
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('domande_voce_dio')
             .insert([{ domanda_testo: testo }]);
 
@@ -211,3 +211,4 @@
 
 </body>
 </html>
+
