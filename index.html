@@ -8,12 +8,11 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Il colore verde salvia dello sfondo della prima foto */
             background-color: #5d7567; 
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             color: white;
         }
@@ -26,11 +25,9 @@
             max-width: 450px;
             width: 90%;
             text-align: center;
-            position: relative;
-            border-bottom: 8px solid #e2c05d; /* Giallo ocra del logo Thrive */
+            border-bottom: 8px solid #e2c05d;
         }
 
-        /* Logo Thrive stilizzato */
         .brand {
             font-size: 3rem;
             font-weight: bold;
@@ -46,15 +43,9 @@
             text-transform: uppercase;
             font-weight: bold;
             margin-bottom: 1.5rem;
-            letter-spacing: 1px;
         }
 
-        h2 { 
-            color: #2c3e50; 
-            font-size: 1.1rem; 
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-        }
+        h2 { color: #2c3e50; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.4; }
 
         textarea {
             width: 100%;
@@ -65,14 +56,10 @@
             resize: none;
             box-sizing: border-box;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
 
-        textarea:focus { 
-            border-color: #e2c05d; 
-            outline: none;
-            box-shadow: 0 0 10px rgba(226, 192, 93, 0.3);
-        }
+        textarea:focus { border-color: #e2c05d; outline: none; }
 
         button {
             margin-top: 1.5rem;
@@ -83,71 +70,48 @@
             border-radius: 30px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
         }
 
-        button:hover { 
-            background-color: #4a5e52;
-            transform: translateY(-2px);
-        }
+        button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
 
-        /* Loghi in basso */
-        .logos {
-            margin-top: 2rem;
+        .logos-container {
+            margin-top: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            opacity: 0.8;
+            gap: 25px;
         }
 
-        .logo-item { height: 40px; }
+        .logo-fiamma {
+            width: 100px; /* Dimensione bilanciata */
+            height: 100px;
+            background-image: url('logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
 
-    /* SEZIONE LOGHI POTENZIATA */
-    .logos-container {
-        margin-top: 40px; /* Più spazio dal tasto invia */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 30px; /* Più spazio tra gli elementi */
-    }
+        .logo-ywam {
+            width: 100px; /* Dimensione bilanciata */
+            height: 100px;
+            background-image: url('logo2.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 50%;
+        }
 
-    /* Logo Fiamma Nera - Ingrandito */
-    .logo-fiamma {
-        width: 180px;
-        height: 180px;
-        background-image: url('logo.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
+        .info-text {
+            text-align: center;
+            font-size: 11px;
+            color: #2c3e50;
+            font-weight: 800;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
 
-    /* Logo YWAM Tondo - Ingrandito */
-    .logo-ywam {
-        width: 170px;
-        height: 170px;
-        background-image: url('logo2.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        border-radius: 50%;
-        /*box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra leggermente più profonda */
-    }
-
-    .info-text {
-        text-align: center; /* Centrato è più elegante se i loghi sono grandi */
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 13px; /* Leggermente più grande */
-        color: #2c3e50;
-        font-weight: 800; /* Molto grassetto come nell'originale */
-        line-height: 1.3;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-        #messaggio { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; }
+        #messaggio { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; min-height: 1.2em; }
     </style>
 </head>
 <body>
@@ -165,16 +129,19 @@
     <p id="messaggio"></p>
 
     <div class="logos-container">
-    <div class="logo-fiamma"></div>
-    <div class="info-text">FONTE DI VITA<br>YWAM CULTIVATE</div>
-    <div class="logo-ywam"></div>
-</div>
+        <div class="logo-fiamma"></div>
+        <div class="info-text">FONTE DI VITA<br>YWAM CULTIVATE</div>
+        <div class="logo-ywam"></div>
+    </div>
 </div>
 
 <script>
-    const _SUPABASE_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
-    const _SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Configurazione corretta (Nomi costanti uguali a quelli usati sotto)
+    const SB_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
+    
+    // Inizializzazione client
+    const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
     async function inviaDati() {
         const input = document.getElementById('domandaInput');
@@ -192,18 +159,21 @@
         messaggio.style.color = "#f39c12";
         messaggio.innerText = "Invio in corso...";
 
-        const { data, error } = await supabaseClient
-            .from('domande_voce_dio')
-            .insert([{ domanda_testo: testo }]);
+        try {
+            const { error } = await supabaseClient
+                .from('domande_voce_dio')
+                .insert([{ domanda_testo: testo }]);
 
-        if (error) {
-            messaggio.style.color = "#e74c3c";
-            messaggio.innerText = "Errore nell'invio. Riprova.";
-            btn.disabled = false;
-        } else {
+            if (error) throw error;
+
             messaggio.style.color = "#27ae60";
             messaggio.innerText = "Grazie! Domande ricevute con successo. 🙏";
             input.value = "";
+        } catch (err) {
+            console.error(err);
+            messaggio.style.color = "#e74c3c";
+            messaggio.innerText = "Errore nell'invio. Riprova.";
+        } finally {
             btn.disabled = false;
         }
     }
@@ -211,4 +181,3 @@
 
 </body>
 </html>
-
