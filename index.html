@@ -3,68 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domande sull'ascolto</title>
+    <title>Domande sull'ascolto - Thrive</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
+            /* Il colore verde salvia dello sfondo della prima foto */
+            background-color: #5d7567; 
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            color: white;
         }
+
         .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            max-width: 450px;
             width: 90%;
             text-align: center;
+            position: relative;
+            border-bottom: 8px solid #e2c05d; /* Giallo ocra del logo Thrive */
         }
-        h2 { color: #2c3e50; font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+        /* Logo Thrive stilizzato */
+        .brand {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #e2c05d;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #5d7567;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        h2 { 
+            color: #2c3e50; 
+            font-size: 1.1rem; 
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
         textarea {
             width: 100%;
             height: 120px;
-            padding: 10px;
+            padding: 15px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 12px;
             resize: none;
             box-sizing: border-box;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
-        textarea:focus { border-color: #3498db; outline: none; }
+
+        textarea:focus { 
+            border-color: #e2c05d; 
+            outline: none;
+            box-shadow: 0 0 10px rgba(226, 192, 93, 0.3);
+        }
+
         button {
-            margin-top: 1rem;
-            background-color: #3498db;
+            margin-top: 1.5rem;
+            background-color: #5d7567;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 14px 30px;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.3s;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        button:hover { background-color: #2980b9; }
-        button:disabled { background-color: #bdc3c7; }
-        #messaggio { margin-top: 1rem; font-size: 0.9rem; }
+
+        button:hover { 
+            background-color: #4a5e52;
+            transform: translateY(-2px);
+        }
+
+        /* Loghi in basso */
+        .logos {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            opacity: 0.8;
+        }
+
+        .logo-item { height: 40px; }
+
+    /* SEZIONE LOGHI POTENZIATA */
+    .logos-container {
+        margin-top: 40px; /* Più spazio dal tasto invia */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px; /* Più spazio tra gli elementi */
+    }
+
+    /* Logo Fiamma Nera - Ingrandito */
+    .logo-fiamma {
+        width: 180px;
+        height: 180px;
+        background-image: url('logo.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    /* Logo YWAM Tondo - Ingrandito */
+    .logo-ywam {
+        width: 170px;
+        height: 170px;
+        background-image: url('logo2.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 50%;
+        /*box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Ombra leggermente più profonda */
+    }
+
+    .info-text {
+        text-align: center; /* Centrato è più elegante se i loghi sono grandi */
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 13px; /* Leggermente più grande */
+        color: #2c3e50;
+        font-weight: 800; /* Molto grassetto come nell'originale */
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+        #messaggio { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="brand">thrive</div>
+    <div class="subtitle">Un Percorso di Discepolato</div>
+    
     <h2>Scrivi almeno due domande, ma anche quante ne vuoi, sull’ascoltare la voce di Dio. 😊</h2>
-    <textarea id="domandaInput" placeholder="Scrivi qui le tue domande..."></textarea>
-    <br>
+    
+    <textarea id="domandaInput" placeholder="Inserisci qui le tue riflessioni..."></textarea>
+    
     <button id="btnInvia" onclick="inviaDati()">Invia al Database</button>
+    
     <p id="messaggio"></p>
+
+    <div class="logos-container">
+    <div class="logo-fiamma"></div>
+    <div class="info-text">FONTE DI VITA<br>YWAM CULTIVATE</div>
+    <div class="logo-ywam"></div>
+</div>
 </div>
 
 <script>
-    // CONFIGURAZIONE DATABASE
     const SUPABASE_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -76,27 +183,25 @@
         const testo = input.value.trim();
 
         if (testo === "") {
-            messaggio.style.color = "red";
+            messaggio.style.color = "#e74c3c";
             messaggio.innerText = "Per favore, scrivi qualcosa.";
             return;
         }
 
         btn.disabled = true;
-        messaggio.style.color = "orange";
+        messaggio.style.color = "#f39c12";
         messaggio.innerText = "Invio in corso...";
 
-        // INVIO AL DATABASE
         const { data, error } = await supabase
             .from('domande_voce_dio')
             .insert([{ domanda_testo: testo }]);
 
         if (error) {
-            console.error(error);
-            messaggio.style.color = "red";
+            messaggio.style.color = "#e74c3c";
             messaggio.innerText = "Errore nell'invio. Riprova.";
             btn.disabled = false;
         } else {
-            messaggio.style.color = "green";
+            messaggio.style.color = "#27ae60";
             messaggio.innerText = "Grazie! Domande ricevute con successo. 🙏";
             input.value = "";
             btn.disabled = false;
