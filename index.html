@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domande sull'ascolto</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        h2 { color: #2c3e50; font-size: 1.2rem; margin-bottom: 1.5rem; }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        textarea:focus { border-color: #3498db; outline: none; }
+        button {
+            margin-top: 1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #2980b9; }
+        button:disabled { background-color: #bdc3c7; }
+        #messaggio { margin-top: 1rem; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Scrivi almeno due domande, ma anche quante ne vuoi, sull’ascoltare la voce di Dio. 😊</h2>
+    <textarea id="domandaInput" placeholder="Scrivi qui le tue domande..."></textarea>
+    <br>
+    <button id="btnInvia" onclick="inviaDati()">Invia al Database</button>
+    <p id="messaggio"></p>
+</div>
+
+<script>
+    // CONFIGURAZIONE DATABASE
+    const SUPABASE_URL = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function inviaDati() {
+        const input = document.getElementById('domandaInput');
+        const messaggio = document.getElementById('messaggio');
+        const btn = document.getElementById('btnInvia');
+        const testo = input.value.trim();
+
+        if (testo === "") {
+            messaggio.style.color = "red";
+            messaggio.innerText = "Per favore, scrivi qualcosa.";
+            return;
+        }
+
+        btn.disabled = true;
+        messaggio.style.color = "orange";
+        messaggio.innerText = "Invio in corso...";
+
+        // INVIO AL DATABASE
+        const { data, error } = await supabase
+            .from('domande_voce_dio')
+            .insert([{ domanda_testo: testo }]);
+
+        if (error) {
+            console.error(error);
+            messaggio.style.color = "red";
+            messaggio.innerText = "Errore nell'invio. Riprova.";
+            btn.disabled = false;
+        } else {
+            messaggio.style.color = "green";
+            messaggio.innerText = "Grazie! Domande ricevute con successo. 🙏";
+            input.value = "";
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
