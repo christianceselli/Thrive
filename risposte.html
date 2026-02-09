@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risposte - Thrive</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #5d7567; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Permette lo scroll se ci sono tante risposte */
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 0;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 95%;
+            text-align: center;
+            border-bottom: 8px solid #e2c05d;
+        }
+
+        .brand {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e2c05d;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: -1px;
+        }
+
+        h2 { color: #2c3e50; font-size: 1.2rem; margin-bottom: 2rem; }
+
+        /* Stile della lista risposte */
+        #listaRisposte {
+            text-align: left;
+            color: #2c3e50;
+        }
+
+        .risposta-card {
+            background: white;
+            padding: 15px;
+            border-left: 5px solid #5d7567;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .data {
+            font-size: 0.75rem;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .testo { font-size: 1rem; line-height: 1.5; }
+
+        .btn-aggiorna {
+            background-color: #e2c05d;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-aggiorna:hover { background-color: #d4b04d; transform: scale(1.05); }
+
+        #caricamento { color: #5d7567; font-weight: bold; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand">thrive</div>
+    <h2>Domande sull'ascoltare la voce di Dio</h2>
+    
+    <button class="btn-aggiorna" onclick="caricaRisposte()">🔄 Aggiorna Lista</button>
+    
+    <div id="caricamento" style="display:none;">Caricamento in corso...</div>
+    <div id="listaRisposte"></div>
+</div>
+
+<script>
+    // Configurazione Supabase (le tue stesse chiavi)
+    const URL_DB = 'https://bdmrzwwfizqjwvcbogip.supabase.co'; 
+    const KEY_DB = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbXJ6d3dmaXpxand2Y2JvZ2lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDEzMzQsImV4cCI6MjA4NjIxNzMzNH0.inJDOgisbQroscILxZImWTC7ToR3BUDEGaxA9Jkux5Q';
+    const supabaseClient = supabase.createClient(URL_DB, KEY_DB);
+
+    async function caricaRisposte() {
+        const lista = document.getElementById('listaRisposte');
+        const loading = document.getElementById('caricamento');
+        
+        lista.innerHTML = '';
+        loading.style.display = 'block';
+
+        try {
+            // Prendiamo i dati ordinati per i più recenti (created_at)
+            const { data, error } = await supabaseClient
+                .from('domande_voce_dio')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (data.length === 0) {
+                lista.innerHTML = '<p style="text-align:center;">Nessuna domanda ricevuta finora.</p>';
+            } else {
+                data.forEach(item => {
+                    const dataFormattata = new Date(item.created_at).toLocaleString('it-IT');
+                    const card = `
+                        <div class="risposta-card">
+                            <span class="data">${dataFormattata}</span>
+                            <div class="testo">${item.domanda_testo}</div>
+                        </div>
+                    `;
+                    lista.innerHTML += card;
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            lista.innerHTML = '<p style="color:red; text-align:center;">Errore nel caricamento delle risposte.</p>';
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    // Carica automaticamente all'apertura
+    caricaRisposte();
+</script>
+
+</body>
+</html>
